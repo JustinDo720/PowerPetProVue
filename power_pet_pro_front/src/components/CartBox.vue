@@ -63,8 +63,8 @@ export default {
     decreaseQuantity(cart_item) {
       // apparently by changing the quantity it also changes the cart items which is weird???
       cart_item.quantity -= 1;
-      if(cart_item.quantity === 0){
-        this.removeItem(cart_item)
+      if (cart_item.quantity === 0) {
+        this.removeItem(cart_item);
       }
       this.updateCart();
     },

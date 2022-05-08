@@ -3,7 +3,7 @@
 ---
 
 ### This directory will hold the frontend code for our [PowerPetPro Project](https://github.com/JustinDo720/PowerPetPro). This is written in Javescript using Vue framework.
-NOTE: This is a PUBLIC directory; however, any API keys are dealt with in our [PowerPetProAPI](https://github.com/JustinDo720/PowerPetProAPI/).
+NOTE: This is a PUBLIC directory; however, any API keys are dealt with in our [PowerPetProAPI](https://github.com/JustinDo720/PowerPetProAPI/) aside from Firebase Hosting.
 
 ---
 ## Project setup

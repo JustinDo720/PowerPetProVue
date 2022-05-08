@@ -10,22 +10,30 @@
           shipping and billing process. Please make sure the details below are
           up-to-date.
         </h2>
-        <button class="button is-outlined is-primary" v-if="user_profile.feedback" @click="showFeedback=!showFeedback">
-            <span>View Your Feedback</span>
+        <button
+          class="button is-outlined is-primary"
+          v-if="user_profile.feedback"
+          @click="showFeedback = !showFeedback"
+        >
+          <span>View Your Feedback</span>
         </button>
       </div>
       <div class="box" v-else>
         <h1 class="title is-1">Hello Admin {{ user_profile.username }}.</h1>
         <h2 class="subtitle">
-          Welcome to your admin account page! You could access Admin tools and also view feedbacks along with seeing
-          your own profile.
+          Welcome to your admin account page! You could access Admin tools and
+          also view feedbacks along with seeing your own profile.
         </h2>
         <div>
-          <button class="button is-outlined is-primary" v-if="user_profile.feedback" @click="showFeedback=!showFeedback">
+          <button
+            class="button is-outlined is-primary"
+            v-if="user_profile.feedback"
+            @click="showFeedback = !showFeedback"
+          >
             <span>View Your Feedback</span>
           </button>
         </div>
-        <br>
+        <br />
         <div class="field has-text-centered">
           <input
             id="adminSwitch"
@@ -69,7 +77,7 @@
                       }"
                     >
                       <button class="button is-primary is-outlined">
-                      Add/Edit Message of the Day
+                        Add/Edit Message of the Day
                       </button>
                     </router-link>
                   </li>
@@ -178,7 +186,6 @@
                   </li>
                 </ul>
               </div>
-
             </div>
           </div>
         </div>
@@ -314,10 +321,7 @@
                     class="input is-medium"
                     type="text"
                     v-model="user_profile[index]"
-                    :disabled="
-                      index === 'date_joined' ||
-                      index === 'username'
-                    "
+                    :disabled="index === 'date_joined' || index === 'username'"
                   />
                 </div>
               </div>
@@ -387,7 +391,11 @@
   </div>
 
   <!-- Feedback Modal -->
-  <div class="modal" :class="{'is-active': showFeedback}" v-if="user_profile.feedback">
+  <div
+    class="modal"
+    :class="{ 'is-active': showFeedback }"
+    v-if="user_profile.feedback"
+  >
     <div class="modal-background"></div>
     <div class="modal-content">
       <!-- Any other Bulma elements you want -->
@@ -405,20 +413,28 @@
             <strong>Opinions:</strong> "{{ user_profile.feedback.opinions }}"
           </div>
           <div class="content">
-            <strong>Suggestion:</strong> "{{ user_profile.feedback.suggestions }}"
+            <strong>Suggestion:</strong> "{{
+              user_profile.feedback.suggestions
+            }}"
           </div>
           <div class="content">
-              <strong>
-                Q&A
-              </strong>
-             <div v-for="(a,q, index) in user_profile.feedback.answers" :key="index">
-              <strong>{{q}}</strong>: {{ a }}
+            <strong> Q&A </strong>
+            <div
+              v-for="(a, q, index) in user_profile.feedback.answers"
+              :key="index"
+            >
+              <strong>{{ q }}</strong
+              >: {{ a }}
             </div>
           </div>
         </div>
       </div>
     </div>
-    <button class="modal-close is-large" aria-label="close" @click="showFeedback=!showFeedback"></button>
+    <button
+      class="modal-close is-large"
+      aria-label="close"
+      @click="showFeedback = !showFeedback"
+    ></button>
   </div>
 </template>
 <script>
@@ -436,10 +452,10 @@ export default {
     return {
       // Careful with setting things null they might show "Null error" so just change it to string format
       // user_profile: null,
-      user_profile: '', // This is where we are going to store all of our user Profile details
-      original_profile: '', // We are going to use this to check if they user changed anything
+      user_profile: "", // This is where we are going to store all of our user Profile details
+      original_profile: "", // We are going to use this to check if they user changed anything
       countries: [],
-      states: '',
+      states: "",
       edit_mode: false,
       admin_mode: true,
       showConfirm: false,
@@ -538,7 +554,6 @@ export default {
     },
   },
   created() {
-
     // We are going to set our model countries to the our country objects
     this.states = countries_and_states.countries;
     this.states.forEach((country) => {
@@ -552,11 +567,11 @@ export default {
       .then((response) => {
         this.user_profile = response.data;
         this.isAdmin = response.data.is_staff;
-        if(!this.isAdmin){
-          this.admin_mode = false
+        if (!this.isAdmin) {
+          this.admin_mode = false;
         }
         // Once we set isAdmin we don't need is_staff to display on profile
-        delete response.data.is_staff
+        delete response.data.is_staff;
         let original_data = {};
         for (let key in response.data) {
           original_data[key] = response.data[key];

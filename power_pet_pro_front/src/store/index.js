@@ -66,17 +66,16 @@ export default createStore({
         // this is a new product so we want to just push this to our cart
         if (state.accessToken) {
           let headers = { Authorization: `Bearer ${state.accessToken}` };
-          axios
-            .post(
-              `profile_list/user_profile/${state.user_id}/cart/${item.product.id}/`,
-              {
-                profile: state.user_id,
-                product: item.product.id,
-                price: item.product.price,
-                quantity: item.quantity,
-              },
-              { headers }
-            )
+          axios.post(
+            `profile_list/user_profile/${state.user_id}/cart/${item.product.id}/`,
+            {
+              profile: state.user_id,
+              product: item.product.id,
+              price: item.product.price,
+              quantity: item.quantity,
+            },
+            { headers }
+          );
         }
         // before we push our item we want it to be in our specific format
         // since our products are no longer under product key we need the name, price and abs_url
@@ -92,9 +91,9 @@ export default createStore({
         };
 
         // Make sure to add in the product images if they have
-        if(item.product.image){
-          cart_item_format['photo'] = item.product.get_image
-          cart_item_format['thumbnail'] = item.product.get_thumbnail
+        if (item.product.image) {
+          cart_item_format["photo"] = item.product.get_image;
+          cart_item_format["thumbnail"] = item.product.get_thumbnail;
         }
 
         // once we make this new format, we are going to push it

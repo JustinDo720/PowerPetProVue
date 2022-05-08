@@ -37,7 +37,10 @@
             <strong>${{ cartTotalPrice.toFixed(2) }}</strong
             >, {{ cartTotalLength }} items
           </p>
-          <button class="button is-medium mt-4 is-info is-outlined" v-if="cart.items.length > 0">
+          <button
+            class="button is-medium mt-4 is-info is-outlined"
+            v-if="cart.items.length > 0"
+          >
             <router-link :to="{ name: 'Checkout' }">
               &raquo; Proceed to checkout
             </router-link>

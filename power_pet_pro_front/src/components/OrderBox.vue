@@ -1,9 +1,15 @@
 <template>
   <div class="card">
     <header class="card-header">
-      <p class="card-header-title">Order
-        <router-link :to="{name:'IndividualOrder', params: {id: order.user , order_number: order.id }}">
-           #{{ order.id }}
+      <p class="card-header-title">
+        Order
+        <router-link
+          :to="{
+            name: 'IndividualOrder',
+            params: { id: order.user, order_number: order.id },
+          }"
+        >
+          #{{ order.id }}
         </router-link>
       </p>
       <p class="card-header-title">Total ${{ order.paid_amount }}</p>

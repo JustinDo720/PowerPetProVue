@@ -68,7 +68,9 @@
                       name: 'ViewAllMessages',
                     }"
                   >
-                    <button class="button is-light is-danger">View All Messages</button>
+                    <button class="button is-light is-danger">
+                      View All Messages
+                    </button>
                   </router-link>
                 </li>
                 <li>
@@ -78,7 +80,9 @@
                       name: 'MessageBox',
                     }"
                   >
-                    <button class="button is-light is-danger">Add/Edit Message of the Day</button>
+                    <button class="button is-light is-danger">
+                      Add/Edit Message of the Day
+                    </button>
                   </router-link>
                 </li>
                 <li>
@@ -88,7 +92,9 @@
                       name: 'ViewAllProducts',
                     }"
                   >
-                    <button class="button is-light is-danger">View All Products</button>
+                    <button class="button is-light is-danger">
+                      View All Products
+                    </button>
                   </router-link>
                 </li>
                 <li>
@@ -98,7 +104,9 @@
                       name: 'AdminProduct',
                     }"
                   >
-                    <button class="button is-light is-danger">Add Product</button>
+                    <button class="button is-light is-danger">
+                      Add Product
+                    </button>
                   </router-link>
                 </li>
                 <li>
@@ -108,7 +116,9 @@
                       name: 'AdminCategory',
                     }"
                   >
-                    <button class="button is-light is-danger">Add Category</button>
+                    <button class="button is-light is-danger">
+                      Add Category
+                    </button>
                   </router-link>
                 </li>
                 <li>
@@ -118,7 +128,9 @@
                       name: 'MissionStatementBox',
                     }"
                   >
-                    <button class="button is-light is-danger">Add Mission Statement</button>
+                    <button class="button is-light is-danger">
+                      Add Mission Statement
+                    </button>
                   </router-link>
                 </li>
                 <li>
@@ -128,7 +140,9 @@
                       name: 'MissionStatementTopicBox',
                     }"
                   >
-                    <button class="button is-light is-danger">Add Mission Statement Topic</button>
+                    <button class="button is-light is-danger">
+                      Add Mission Statement Topic
+                    </button>
                   </router-link>
                 </li>
                 <li>
@@ -138,28 +152,33 @@
                       name: 'MissionDetailsBox',
                     }"
                   >
-                    <button class="button is-light is-danger">Add Mission Details</button>
+                    <button class="button is-light is-danger">
+                      Add Mission Details
+                    </button>
                   </router-link>
                 </li>
                 <li>
-                    <router-link
-                      :to="{
-                        name: 'QuestionControl',
-                      }"
-                    >
-                      <button class="button is-light is-danger">Add/View Questions</button>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link
-                      :to="{
-                        name: 'AllFeedbacks',
-                      }"
-                    >
-                      <button class="button is-light is-danger">View All User Feedback</button>
-                    </router-link>
-                  </li>
-
+                  <router-link
+                    :to="{
+                      name: 'QuestionControl',
+                    }"
+                  >
+                    <button class="button is-light is-danger">
+                      Add/View Questions
+                    </button>
+                  </router-link>
+                </li>
+                <li>
+                  <router-link
+                    :to="{
+                      name: 'AllFeedbacks',
+                    }"
+                  >
+                    <button class="button is-light is-danger">
+                      View All User Feedback
+                    </button>
+                  </router-link>
+                </li>
               </ul>
             </aside>
 
@@ -176,7 +195,9 @@
                       },
                     }"
                   >
-                    <button class="button is-light is-link">{{ category.name }}</button>
+                    <button class="button is-light is-link">
+                      {{ category.name }}
+                    </button>
                   </router-link>
                 </li>
               </ul>
@@ -276,21 +297,21 @@
             </p>
           </span>
           <span>
-              <button class="button is-small" @click="logOut()">
-                <span> Log Out </span>
-                <span class="icon is-medium">
-                  <i class="fas fa-sign-out-alt"></i>
-                </span>
-              </button>
-            </span>
+            <button class="button is-small" @click="logOut()">
+              <span> Log Out </span>
+              <span class="icon is-medium">
+                <i class="fas fa-sign-out-alt"></i>
+              </span>
+            </button>
+          </span>
           <div class="navbar-item">
-            <div class="dropdown" :class="{'is-active' : showFunction}">
+            <div class="dropdown" :class="{ 'is-active': showFunction }">
               <div class="dropdown-trigger">
                 <button
-                    class="button is-small"
-                    aria-haspopup="true"
-                    aria-controls="dropdown-menu4"
-                    @click="showFunction = !showFunction"
+                  class="button is-small"
+                  aria-haspopup="true"
+                  aria-controls="dropdown-menu4"
+                  @click="showFunction = !showFunction"
                 >
                   <span class="icon is-small">
                     <i class="fas fa-angle-down"></i>
@@ -300,11 +321,13 @@
               <div class="dropdown-menu" id="dropdown-menu4" role="menu">
                 <div class="dropdown-content">
                   <router-link :to="{ name: 'CheckOrder' }">
-                    <a class="dropdown-item" @click="showFunction = !showFunction">
+                    <a
+                      class="dropdown-item"
+                      @click="showFunction = !showFunction"
+                    >
                       Check Your Order
                     </a>
                   </router-link>
-
                 </div>
               </div>
             </div>
@@ -369,16 +392,16 @@ export default {
     axios.get("/category_list/").then((response) => {
       this.$store.commit("update_categories", { categories: response.data });
     });
-     /*
-    * The main Problem is that is_staff is actually string of 'true' and we can't use our store because vue life cycle
-    * comes first before our store initialize so we need to make sure we use Cookies to grab our data. Therefore,
-    * we need to change is_staff from string 'true'/'false' to it's boolean value. Otherwise v-if will not work as
-    * intended because they'll read 'false' as true as its not blank. So let's use JSON.parse.
-    *
-    * JSON.parse will parse our string value which converts the type of variable into boolean
-    * */
-    if(Cookies('is_staff')){
-      this.isAdmin = JSON.parse(Cookies('is_staff'))
+    /*
+     * The main Problem is that is_staff is actually string of 'true' and we can't use our store because vue life cycle
+     * comes first before our store initialize so we need to make sure we use Cookies to grab our data. Therefore,
+     * we need to change is_staff from string 'true'/'false' to it's boolean value. Otherwise v-if will not work as
+     * intended because they'll read 'false' as true as its not blank. So let's use JSON.parse.
+     *
+     * JSON.parse will parse our string value which converts the type of variable into boolean
+     * */
+    if (Cookies("is_staff")) {
+      this.isAdmin = JSON.parse(Cookies("is_staff"));
     }
   },
 };
