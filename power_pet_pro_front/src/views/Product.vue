@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="columns is-multiline" :class="{'is-centered': !product.get_image}">
+    <div
+      class="columns is-multiline"
+      :class="{ 'is-centered': !product.get_image }"
+    >
       <div class="column is-9" v-if="product.get_image">
         <div class="container">
           <figure>
@@ -9,11 +12,16 @@
             </p>
           </figure>
         </div>
-
       </div>
 
-      <div class="column"
-           :class="{'is-3': product.get_image, 'has-text-centered': !product.get_image, 'is-half': !product.get_image}">
+      <div
+        class="column"
+        :class="{
+          'is-3': product.get_image,
+          'has-text-centered': !product.get_image,
+          'is-half': !product.get_image,
+        }"
+      >
         <div class="content box has-background-info has-text-white mr-2">
           <h1 class="title has-text-white">
             {{ product.name }}
@@ -26,12 +34,20 @@
 
           <h4 class="title is-4">
             <strong>Price: </strong>
-            <span class="has-text-danger-dark">
-              ${{ product.price }}
-            </span>
+            <span class="has-text-danger-dark"> ${{ product.price }} </span>
           </h4>
-          <div :class="{'columns': !product.get_image, 'is-centered': !product.get_image}">
-            <div :class="{'column':!product.get_image, 'is-half':!product.get_image}">
+          <div
+            :class="{
+              columns: !product.get_image,
+              'is-centered': !product.get_image,
+            }"
+          >
+            <div
+              :class="{
+                column: !product.get_image,
+                'is-half': !product.get_image,
+              }"
+            >
               <div class="field has-addons mt-6">
                 <div class="control">
                   <input type="number" class="input" v-model="quantity" />
@@ -47,7 +63,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
