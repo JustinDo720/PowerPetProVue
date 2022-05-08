@@ -53,7 +53,6 @@ export default {
     axios
       .get(`admin_panel/our_mission/view_topic/${topic_slug}/`)
       .then((response) => {
-        console.log(response.data);
         if (response.data.length >= 1) {
           this.all_topic_details = response.data;
           this.main_topic = response.data[0].mission_topic_name;

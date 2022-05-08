@@ -513,10 +513,9 @@ export default {
       for (let key in this.changed_info) {
         changed_data[key] = this.changed_info[key].new_value;
       }
-      console.log(changed_data);
       axios
         .put(`profile_list/user_profile/${this.user_id}/`, changed_data, config)
-        .then((response) => {
+        .then(() => {
           this.showConfirm = !this.showConfirm;
           this.edit_mode = !this.edit_mode;
           toast({
@@ -527,9 +526,6 @@ export default {
             duration: 30000, // milliseconds
             position: "bottom-right",
           });
-        })
-        .catch((err) => {
-          console.log(err.response);
         });
     },
   },

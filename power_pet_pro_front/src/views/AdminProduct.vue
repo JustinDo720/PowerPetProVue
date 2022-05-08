@@ -163,7 +163,6 @@ export default {
   methods: {
     onFileSelected(event) {
       this.product_image = event.target.files[0];
-      console.log(this.product_image);
       this.default_image_name = this.product_image.name;
     },
     submit_product() {
@@ -174,7 +173,6 @@ export default {
         this.product_description
       ) {
         // We need to make sure we get the chosen_category id so
-        console.log(this.product_image);
         let category_object = this.store_categories.find(
           (category) => category.name === this.chosen_category
         );
@@ -208,7 +206,6 @@ export default {
             this.show_added_product = true;
           })
           .catch((err) => {
-            console.log(err.response.data.name);
             this.error_message = err.response.data.name[0];
           });
       } else {
@@ -222,9 +219,6 @@ export default {
   },
   computed: {
     ...mapState(["store_categories", "accessToken"]),
-  },
-  created() {
-    console.log(this.store_categories);
   },
 };
 </script>

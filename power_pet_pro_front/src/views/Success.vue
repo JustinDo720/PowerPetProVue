@@ -42,7 +42,6 @@ export default {
       data["anonymous_user_email"] = Cookies("anonymous_user_email");
     }
     axios.post(`checkout/order/${order_id}/success/`, data).then((response) => {
-      console.log(response.data);
       this.message = response.data.message;
       this.email = response.data.email;
       this.$store.commit("setIsLoading", false);

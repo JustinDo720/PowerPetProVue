@@ -78,7 +78,6 @@ export default {
   },
   methods: {
     submit_password() {
-      console.log(this.uid, this.token);
       if (
         this.new_password &&
         this.confirm_password &&
@@ -91,8 +90,7 @@ export default {
             new_password: this.new_password,
             re_new_password: this.confirm_password,
           })
-          .then((response) => {
-            console.log(response);
+          .then(() => {
             toast({
               message: "Your password has been reset!!!!",
               type: "is-success",

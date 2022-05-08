@@ -41,7 +41,6 @@ export default {
         for (let product_id in all_products) {
           this.products.push(all_products[product_id]);
         }
-        console.log(this.products);
       });
   },
   methods: {},

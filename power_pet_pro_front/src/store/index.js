@@ -218,9 +218,9 @@ export default createStore({
         const refreshToken = Cookies("refreshToken");
         const is_staff = Cookies("is_staff");
 
-        //let url = "http://localhost:8000/auth/jwt/verify/"
+        let url = process.env.VUE_APP_ROOT_API + "auth/jwt/verify/";
         axios
-          .post("http://localhost:8000/auth/jwt/verify/", {
+          .post(url, {
             token: accessToken,
           })
           .then(() => {
@@ -232,8 +232,7 @@ export default createStore({
               is_staff: is_staff,
             });
           })
-          .catch((err) => {
-            console.log(err.response.data);
+          .catch(() => {
             axios
               .post("/api/token/refresh/", {
                 refresh: refreshToken,

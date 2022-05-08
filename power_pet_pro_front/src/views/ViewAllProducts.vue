@@ -224,7 +224,6 @@ export default {
   methods: {
     onFileSelected(event) {
       this.chosen_product_picture = event.target.files[0];
-      console.log(this.chosen_product_picture);
       this.default_image_name = this.chosen_product_picture.name;
     },
     remove_file() {

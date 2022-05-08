@@ -278,22 +278,17 @@ export default {
       }
 
       // We don't have errors and active email notification isn't opened
-      console.log("before stripe: ", this.active_email);
       if (!Object.keys(this.errors).length && !this.active_email) {
-        console.log(!this.active_email, this.active_email);
         this.$store.commit("setIsLoading", true);
         this.stripe.createToken(this.card).then((result) => {
           if (result.error) {
             this.$store.commit("setIsLoading", false);
             this.errors["stripe"] =
               "* Something went wrong with the Payment. Please try again";
-            console.log(result.error.message);
           } else {
             this.stripeTokenHandler(result.token);
           }
         });
-      } else {
-        console.log(this.errors);
       }
     },
     async stripeTokenHandler(token) {
@@ -339,8 +334,6 @@ export default {
         Cookies.set("anonymous_user_email", this.email);
       }
 
-      console.log(data);
-
       axios
         .post("checkout/", data)
         .then((response) => {
@@ -360,7 +353,6 @@ export default {
     continue_purchase() {
       this.active_email = !this.active_email;
       this.continue_order = !this.continue_order;
-      console.log(this.active_email);
       this.submit_shipping_details();
     },
   },

@@ -81,7 +81,6 @@ export default {
           this.$router.push({ name: "Home" });
         })
         .catch((err) => {
-          console.log(err.response);
           this.error_message = err.response.data[0];
         });
     },

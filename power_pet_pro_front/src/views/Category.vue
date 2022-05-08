@@ -29,7 +29,6 @@ export default {
         .get(`/category_list/category_detail${category_slug}`)
         .then((response) => {
           this.categoryProducts = response.data;
-          console.log(this.categoryProducts); // now this should have the response.data array
         });
     },
   },

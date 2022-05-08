@@ -180,7 +180,6 @@ export default {
             (msg) => msg.id === this.chosen_message_id
           );
           msg_changed.msg = response.data.msg;
-          console.log(msg_changed);
         });
     },
     delete_message() {

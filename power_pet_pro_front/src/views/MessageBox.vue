@@ -174,7 +174,6 @@ export default {
             this.message = "";
           })
           .catch((err) => {
-            console.log(err.response.data.msg);
             this.error_message = err.response.data.msg[0];
           });
       }
@@ -196,7 +195,6 @@ export default {
             (msg) => msg.id === this.chosen_message_id
           );
           msg_changed.msg = response.data.msg;
-          console.log(msg_changed);
         });
     },
     delete_message_activation(message_object) {
@@ -224,9 +222,6 @@ export default {
   },
   computed: {
     ...mapState(["messageboxes", "accessToken"]),
-  },
-  created() {
-    console.log(this.messageboxes);
   },
 };
 </script>
