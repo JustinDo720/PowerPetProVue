@@ -83,11 +83,9 @@ export default {
         if (this.user_id) {
           data["user_id"] = this.user_id;
         }
-        console.log(data);
         axios.post(`check_order/${order_number}/`, data).then((response) => {
           if (response.data.order_exists) {
             // if we our exist then we will proceed to send this user over to individual order
-            console.log(this.user_id);
             if (this.user_id) {
               this.$router.push({
                 name: "IndividualOrder",

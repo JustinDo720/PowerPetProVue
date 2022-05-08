@@ -252,8 +252,7 @@ export default {
             headers: { Authorization: `Bearer ${this.accessToken}` },
           }
         )
-        .then((response) => {
-          console.log(response.data.message);
+        .then(() => {
           this.activate_delete_modal = !this.activate_delete_modal;
           toast({
             message: "Removed your topic. Please refresh your page.",
@@ -271,7 +270,6 @@ export default {
       this.edit_topic = topic.topic;
     },
     edit_mission_topic() {
-      console.log(this.edit_topic);
       axios
         .put(
           `admin_panel/our_mission/update_topic/${this.edit_topic_slug}/`,

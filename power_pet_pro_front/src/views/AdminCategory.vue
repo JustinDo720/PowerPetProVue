@@ -90,7 +90,6 @@ export default {
             this.category_name = "";
           })
           .catch((err) => {
-            console.log(err.response.data);
             this.error_message = err.response.data.name[0];
           });
       } else {

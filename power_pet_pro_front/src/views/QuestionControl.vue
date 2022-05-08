@@ -200,15 +200,11 @@ export default {
       let config = {
         headers: { Authorization: `Bearer ${Cookies("accessToken")}` },
       };
-      axios
-        .post(
-          "admin_panel/feedbacks/add_questions/",
-          this.added_questions,
-          config
-        )
-        .then((response) => {
-          console.log(response.data);
-        });
+      axios.post(
+        "admin_panel/feedbacks/add_questions/",
+        this.added_questions,
+        config
+      );
     },
   },
   created() {

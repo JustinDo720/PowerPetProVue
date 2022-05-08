@@ -92,8 +92,7 @@ export default {
       ) {
         axios
           .post("auth/users/reset_password/", { email: this.user_email })
-          .then((response) => {
-            console.log(response);
+          .then(() => {
             toast({
               message: "Please check your email to reset your password !!!",
               type: "is-success",
