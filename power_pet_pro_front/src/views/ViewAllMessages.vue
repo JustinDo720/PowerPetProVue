@@ -14,7 +14,7 @@
                 v-for="(message, index) in messageboxes"
                 :key="index"
               >
-                <span> {{ index + 1 }}. {{ message.msg }}&nbsp; </span>
+                <span> {{ message.id }}. {{ message.msg }}&nbsp; </span>
                 <span>
                   <button
                     class="button is-warning is-small"

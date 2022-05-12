@@ -17,7 +17,7 @@
                 v-for="(message, index) in messageboxes"
                 :key="index"
               >
-                <span> {{ index + 1 }}. {{ message.msg }}&nbsp; </span>
+                <span> {{ message.id }}. {{ message.msg }}&nbsp; </span>
                 <span>
                   <button
                     class="button is-warning is-small"
@@ -169,8 +169,13 @@ export default {
             },
             { headers: { Authorization: `Bearer ${this.accessToken}` } }
           )
-          .then(() => {
-            this.messageboxes.push({ msg: this.message });
+          .then((response) => {
+            this.messageboxes.unshift({
+              id: response.data.id,
+              msg: this.message,
+            });
+            // We need to manually reverse but in our db it's already ordered
+            this.messageboxes.sort((msg) => -msg.id); // This way the the messages will appear reverse without reloading the page
             this.message = "";
           })
           .catch((err) => {
@@ -186,15 +191,27 @@ export default {
     edit_message() {
       // Once we activate this function we want to update our message with the chosen_message
       axios
-        .put(`admin_panel/message_box/update/${this.chosen_message_id}/`, {
-          msg: this.chosen_message, // NOTE: this.chosen_message will be the most updated message from modal textarea
-        })
+        .put(
+          `admin_panel/message_box/update/${this.chosen_message_id}/`,
+          {
+            msg: this.chosen_message, // NOTE: this.chosen_message will be the most updated message from modal textarea
+          },
+          { headers: { Authorization: `Bearer ${this.accessToken}` } }
+        )
         .then((response) => {
           this.activate_modal = false;
           let msg_changed = this.messageboxes.filter(
             (msg) => msg.id === this.chosen_message_id
           );
           msg_changed.msg = response.data.msg;
+          toast({
+            message: "You message has been edited :)",
+            type: "is-warning",
+            dismissible: true,
+            pauseOnHover: true,
+            duration: 6000, // milliseconds
+            position: "bottom-right",
+          });
         });
     },
     delete_message_activation(message_object) {
@@ -210,7 +227,7 @@ export default {
         .then((response) => {
           toast({
             message: response.data.success,
-            type: "is-success",
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
             duration: 6000, // milliseconds
