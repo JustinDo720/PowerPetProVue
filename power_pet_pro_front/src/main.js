@@ -8,6 +8,7 @@ import Cookies from "cookies-js";
 
 // we could set a default for axios so now we don't have to keep putting this before our paths
 axios.defaults.baseURL = process.env.VUE_APP_ROOT_API;
+// axios.defaults.baseURL = "http://localhost:8000/";
 
 Cookies.defaults = {
   path: "/",

@@ -1,8 +1,8 @@
 <template>
-  <section class="hero is-fullheight">
+  <section class="hero is-fullheight is-danger">
     <div class="hero-body">
       <div class="container has-text-centered">
-        <p class="title is-1">Adding Details to a Topic</p>
+        <p class="title is-1 ">Adding Details to a Topic</p>
         <hr />
         <p class="subtitle">
           Please Enter the follow information below to add a Detail
@@ -11,7 +11,7 @@
           <div class="column is-5">
             <form class="box" @submit.prevent="submit_details()">
               <div class="field">
-                <h1 class="title is-4">Topic:</h1>
+                <h1 class="title is-4 has-text-black">Topic:</h1>
                 <div class="select is-medium">
                   <select v-model="chosen_topic">
                     <option v-for="(topic, index) in all_topics" :key="index">
@@ -86,6 +86,9 @@ export default {
               duration: 6000, // milliseconds
               position: "bottom-right",
             });
+            this.chosen_topic= ""
+            this.topic_details= ""
+
           })
           .catch((err) => {
             this.error_message = "Your characters are more than 800 characters";

@@ -272,6 +272,7 @@ export default {
       this.chosen_product_picture = "";
     },
     edit_mode_activated(product) {
+      console.log(product)
       this.edit_mode = !this.edit_mode;
       this.chosen_product_id = product.id;
       if (product.get_image_name) {
@@ -336,7 +337,7 @@ export default {
         headers: { Authorization: `Bearer ${this.accessToken}` },
       }).then(() => {
         toast({
-          message: `${this.chosen_product_name} has been successfully updated`,
+          message: `${this.chosen_product_name} has been successfully updated. Please refresh your page`,
           type: "is-success",
           dismissible: true,
           pauseOnHover: true,
@@ -365,7 +366,12 @@ export default {
           this.previous = "";
         }
         this.totalProductCount = response.data.count;
-        this.currPage = parseInt(response.data.next.slice(-1)) - 1;
+        if(response.data.next !== null){
+          this.currPage = parseInt(response.data.next.slice(-1)) - 1;
+        } else {
+          this.currPage = 1
+        }
+
         axios.get("category_list/").then((response) => {
           this.categories = response.data;
         });
