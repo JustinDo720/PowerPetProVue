@@ -61,22 +61,51 @@
             <aside class="menu ml-2 mt-2" v-if="isAdmin">
               <p class="menu-label title is-4">Admin</p>
               <ul class="menu-list">
+                <!-- Category -->
                 <li>
                   <router-link
-                    data-dismiss="quickview"
-                    :to="{
-                      name: 'ViewAllMessages',
+                      data-dismiss="quickview"
+                      :to="{
+                      name: 'AdminCategory',
                     }"
                   >
                     <button class="button is-light is-danger">
-                      View All Messages
+                      Add Category
+                    </button>
+                  </router-link>
+                </li>
+                <hr>
+                <!-- Product -->
+                <li>
+                  <router-link
+                      data-dismiss="quickview"
+                      :to="{
+                      name: 'AdminProduct',
+                    }"
+                  >
+                    <button class="button is-light is-danger">
+                      Add Product
                     </button>
                   </router-link>
                 </li>
                 <li>
                   <router-link
-                    data-dismiss="quickview"
-                    :to="{
+                      data-dismiss="quickview"
+                      :to="{
+                      name: 'ViewAllProducts',
+                    }"
+                  >
+                    <button class="button is-light is-danger">
+                      View All Products
+                    </button>
+                  </router-link>
+                </li>
+                <hr>
+                <!-- Messages -->
+                <li>
+                  <router-link
+                      data-dismiss="quickview"
+                      :to="{
                       name: 'MessageBox',
                     }"
                   >
@@ -89,38 +118,16 @@
                   <router-link
                     data-dismiss="quickview"
                     :to="{
-                      name: 'ViewAllProducts',
+                      name: 'ViewAllMessages',
                     }"
                   >
                     <button class="button is-light is-danger">
-                      View All Products
+                      View All Messages
                     </button>
                   </router-link>
                 </li>
-                <li>
-                  <router-link
-                    data-dismiss="quickview"
-                    :to="{
-                      name: 'AdminProduct',
-                    }"
-                  >
-                    <button class="button is-light is-danger">
-                      Add Product
-                    </button>
-                  </router-link>
-                </li>
-                <li>
-                  <router-link
-                    data-dismiss="quickview"
-                    :to="{
-                      name: 'AdminCategory',
-                    }"
-                  >
-                    <button class="button is-light is-danger">
-                      Add Category
-                    </button>
-                  </router-link>
-                </li>
+                <hr>
+                <!-- Mission Statement -->
                 <li>
                   <router-link
                     data-dismiss="quickview"
@@ -157,6 +164,8 @@
                     </button>
                   </router-link>
                 </li>
+                <hr>
+                <!-- Feedback -->
                 <li>
                   <router-link
                     :to="{
@@ -415,5 +424,8 @@ export default {
 .buttonTransparent {
   background-color: transparent;
   border: none;
+}
+hr{
+  border: 1px solid;
 }
 </style>

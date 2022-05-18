@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-fullheight">
+  <section class="hero is-fullheight is-danger">
     <div class="hero-body">
       <div class="container has-text-centered">
         <p class="title is-1">Adding A Mission Statement</p>
@@ -12,9 +12,9 @@
           <!-- Here we are going to the box to display the messages -->
           <div class="column is-5">
             <div class="box has-text-centered">
-              <h1 class="title is-3">Your Current Mission Statement:</h1>
+              <h1 class="title is-3 has-text-black">Your Current Mission Statement:</h1>
               <div v-if="mission_statement">
-                <h2 class="subtitle is-4">"{{ mission_statement }}"</h2>
+                <h2 class="subtitle is-4 has-text-black">"{{ mission_statement }}"</h2>
                 <button
                   class="button is-danger is-outlined"
                   @click="activate_delete_modal = !activate_delete_modal"
@@ -26,7 +26,7 @@
                 </button>
               </div>
               <div v-else-if="empty_mission_statement">
-                <h2 class="subtitle is-4">"{{ empty_mission_statement }}"</h2>
+                <h2 class="subtitle is-4 has-text-black">"{{ empty_mission_statement }}"</h2>
               </div>
             </div>
           </div>

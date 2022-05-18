@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-fullheight">
+  <section class="hero is-fullheight is-danger">
     <div class="hero-body">
       <div class="container has-text-centered">
         <p class="title is-1">Adding A Message to the Message Box</p>

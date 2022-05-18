@@ -492,6 +492,7 @@ export default {
             new_value: new_value,
           };
         }
+
       }
 
       // if changed_user_info has an obj that means they did change something
@@ -507,12 +508,18 @@ export default {
       let changed_data = {
         user: this.user_id,
       };
+      console.log(this.changed_info)
       let config = {
         headers: { Authorization: `Bearer ${this.accessToken}` },
       };
       for (let key in this.changed_info) {
         changed_data[key] = this.changed_info[key].new_value;
       }
+      // we need to make sure to add into email because its a required field
+      if(!changed_data['email']){
+        changed_data['email'] = this.user_profile.email // if they didnt change their emails we could use their original
+      }
+      console.log(changed_data)
       axios
         .put(`profile_list/user_profile/${this.user_id}/`, changed_data, config)
         .then(() => {

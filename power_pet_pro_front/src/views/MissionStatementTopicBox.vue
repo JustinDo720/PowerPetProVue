@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-fullheight">
+  <section class="hero is-fullheight is-danger">
     <div class="hero-body">
       <div class="container has-text-centered">
         <p class="title is-1">Adding A Mission Topic</p>
@@ -10,7 +10,7 @@
           <!-- Here we are going to the box to display the messages -->
           <div class="column is-5">
             <div class="box has-text-centered">
-              <h1 class="title is-3">Your Current Mission Statement Topics:</h1>
+              <h1 class="title is-3 has-text-black">Your Current Mission Statement Topics:</h1>
               <div v-if="mission_statement_topics">
                 <ul>
                   <li

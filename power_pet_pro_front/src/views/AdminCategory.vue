@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-fullheight">
+  <section class="hero is-fullheight is-danger">
     <div class="hero-body">
       <div class="container has-text-centered">
         <p class="title is-1">Adding A Category</p>
@@ -11,7 +11,7 @@
         <div class="columns is-centered">
           <div class="column is-5" v-if="show_added_category">
             <div class="box">
-              <h1 class="title is-2">
+              <h1 class="title is-2 has-text-black">
                 Category Added: {{ saved_category_name }}
               </h1>
             </div>

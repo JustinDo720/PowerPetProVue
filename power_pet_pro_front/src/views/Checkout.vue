@@ -384,7 +384,7 @@ export default {
   mounted() {
     document.title = "Checkout | Power Pet Pro";
     // we create an instance of stripe and we use window because of index.html with our stripe cdn
-    this.stripe = window.Stripe(process.env.VUE_APP_STRIPE_TOKEN);
+    this.stripe = window.Stripe(process.env.VUE_APP_STRIPE_TEST_TOKEN);
     // We need to create an instance of elements
     const elements = this.stripe.elements();
     // Just styling for stripe which we will add when we create an element of card

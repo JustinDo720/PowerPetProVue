@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-fullheight">
+  <section class="hero is-fullheight is-danger">
     <div class="hero-body">
       <div class="container has-text-centered">
         <p class="title is-1">Adding A Product</p>
@@ -12,6 +12,9 @@
           <div class="column is-5" v-if="show_added_product">
             <div class="box">
               <div class="card">
+                <div class="card-header-title has-text-danger">
+                  Newly Added Product Details
+                </div>
                 <div class="card-image" v-if="saved_photo_url">
                   <figure class="image is-4by3">
                     <img :src="saved_photo_url" :alt="saved_photo_url" />
@@ -20,22 +23,22 @@
                 <div class="card-content">
                   <div class="content">
                     <div class="is-centered">
-                      <h1 class="title is-2">
-                        {{ product_name }}
+                      <h1 class="title is-3 has-text-black">
+                        <strong class="has-text-black">Product</strong>: {{ product_name }}
                       </h1>
                     </div>
                     <div>
-                      <h2 class="subtitle is-3">
-                        Category: {{ chosen_category }}
+                      <h2 class="subtitle is-3 has-text-black">
+                        <strong class="has-text-black">Category</strong>: {{ chosen_category }}
                       </h2>
                     </div>
                     <div>
-                      <h2 class="subtitle is-3">Price: ${{ product_price }}</h2>
+                      <h2 class="subtitle is-3 has-text-black"><strong class="has-text-black">Price</strong>: ${{ product_price }}</h2>
                     </div>
                     <hr />
                     <div>
-                      <h2 class="subtitle is-4">
-                        Description: {{ product_description }}
+                      <h2 class="subtitle is-4 has-text-black">
+                        <strong class="has-text-black">Description</strong>: {{ product_description }}
                       </h2>
                     </div>
                   </div>
@@ -204,6 +207,14 @@ export default {
             });
             // We need to set show_added_product to true because we are going to need it to stay if we add a new one
             this.show_added_product = true;
+            // Reset form
+            this.chosen_category = null
+            this.product_name = null
+            this.product_price = null
+            this.product_description = null
+            this.product_image = null
+            this.default_image_name = 'No Files Selected'
+            this.saved_photo_url = null
           })
           .catch((err) => {
             this.error_message = err.response.data.name[0];
