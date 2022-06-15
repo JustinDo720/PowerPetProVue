@@ -258,7 +258,8 @@
             :key="index"
           >
             <div class="card-content control">
-              <div class="content is-large">
+              <!-- We will stop the content if the index is dealing with feedback -->
+              <div class="content is-large" v-if="index !== 'feedback'">
                 <strong>{{ cleanIndex(index) }}</strong
                 >:
                 <div
