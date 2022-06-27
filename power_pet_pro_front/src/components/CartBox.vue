@@ -63,10 +63,14 @@ export default {
     decreaseQuantity(cart_item) {
       // apparently by changing the quantity it also changes the cart items which is weird???
       cart_item.quantity -= 1;
-      if (cart_item.quantity === 0) {
+      // we need to make sure that we either remove or update you cant remove then update the cart
+      if (cart_item.quantity <= 0) {
+        // if the item hits a 0 quant we remove the item (if we update after its just going to set the quant = 0 in db)
         this.removeItem(cart_item);
+      } else {
+        // otherwise we just simply update the cart. Do not do both. The quant will update on the db with <=0 quant
+        this.updateCart();
       }
-      this.updateCart();
     },
     increaseQuantity(cart_item) {
       // you don't need to change the state because if its an object in an array on an obj it automatically changes

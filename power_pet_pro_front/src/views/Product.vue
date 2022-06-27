@@ -50,7 +50,7 @@
             >
               <div class="field has-addons mt-6">
                 <div class="control">
-                  <input type="number" class="input" v-model="quantity" />
+                  <input type="number" class="input" v-model="quantity" min="1"/>
                 </div>
                 <div class="control">
                   <button class="button is-primary" @click="addToCart()">

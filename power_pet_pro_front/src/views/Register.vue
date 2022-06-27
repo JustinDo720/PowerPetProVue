@@ -125,7 +125,7 @@ export default {
           .then(() => {
             toast({
               message: "Please check your email to confirm!!!",
-              type: "is-warning",
+              type: "is-success",
               dismissible: true,
               pauseOnHover: true,
               duration: 60000, // milliseconds

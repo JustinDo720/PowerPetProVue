@@ -18,12 +18,16 @@
             <u>
               <i>All Current Questions</i>
             </u>
+
+          </h2>
+          <h2 class="subtitle is-5 has-text-black">
+            Please refresh your page if you do not see your newly added questions.
           </h2>
           <ul>
             <li v-for="(question, index) in current_questions" :key="index">
               <h3 class="title is-3 has-text-white">
                 <span>
-                  {{ question.id }}. <strong>{{ question.questions }}</strong>
+                  {{ index + 1 }}. <strong>{{ question.questions }}</strong>
                 </span>
                 <span>
                   <button
@@ -204,7 +208,17 @@ export default {
         "admin_panel/feedbacks/add_questions/",
         this.added_questions,
         config
-      );
+      ).then(()=>{
+        this.add_question_mode = !this.add_question_mode
+        toast({
+          message: "We have added your questions. Please refresh your page!",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
+          duration: 6000, // milliseconds
+          position: "bottom-right",
+        });
+      });
     },
   },
   created() {

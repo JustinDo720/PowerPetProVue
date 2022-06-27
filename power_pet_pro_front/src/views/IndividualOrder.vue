@@ -196,11 +196,12 @@ export default {
   },
   methods: {
     dateParse(date) {
+      console.log(date)
       if (date != null) {
         let new_date = new Date(
           date.slice(0, 4),
           date.slice(5, 7) - 1,
-          date.slice(8, 10)
+          date.slice(8, 10) - 1
         );
         var options = { month: "long" };
         let month = new Intl.DateTimeFormat("en-US", options).format(new_date);

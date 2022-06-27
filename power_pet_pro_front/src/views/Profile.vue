@@ -258,7 +258,8 @@
             :key="index"
           >
             <div class="card-content control">
-              <div class="content is-large">
+              <!-- We will stop the content if the index is dealing with feedback -->
+              <div class="content is-large" v-if="index !== 'feedback'">
                 <strong>{{ cleanIndex(index) }}</strong
                 >:
                 <div
@@ -362,11 +363,17 @@
             </div>
             <div class="is-divider-vertical" data-content="CHANGED"></div>
             <div class="column">
-              <p v-for="(user_info, index) in changed_info" :key="index">
-                <strong>{{ cleanIndex(index) }}</strong
-                >: {{ user_info.old_value }} <i class="fas fa-arrow-right"></i>
-                {{ user_info.new_value }}
-              </p>
+              <div v-for="(user_info, index) in changed_info" :key="index">
+                <p v-if="user_info.new_value === ''">
+                  <!-- item is being removed -->
+                  <strong>{{ cleanIndex(index)}}</strong> is being <span class="has-text-danger">removed</span>
+                </p>
+                <p v-else>
+                  <strong>{{ cleanIndex(index) }}</strong
+                  >: {{ user_info.old_value }} <i class="fas fa-arrow-right"></i>
+                  {{user_info.new_value}}
+                </p>
+              </div>
             </div>
           </div>
           <div class="buttons has-addons is-centered">
@@ -491,6 +498,7 @@ export default {
             old_value: old_value,
             new_value: new_value,
           };
+          console.log(changed_user_info)
         }
 
       }
@@ -508,12 +516,16 @@ export default {
       let changed_data = {
         user: this.user_id,
       };
-      console.log(this.changed_info)
       let config = {
         headers: { Authorization: `Bearer ${this.accessToken}` },
       };
       for (let key in this.changed_info) {
+        // We need to allow users to leave desired fields blank so
         changed_data[key] = this.changed_info[key].new_value;
+        if(!changed_data[key]){
+          // let's set this to null instead of a string because some fields might be int and won't accept empty strings
+          changed_data[key] = null
+        }
       }
       // we need to make sure to add into email because its a required field
       if(!changed_data['email']){

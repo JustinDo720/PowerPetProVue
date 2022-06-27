@@ -227,7 +227,7 @@ export default {
         .then((response) => {
           toast({
             message: response.data.success,
-            type: "is-danger",
+            type: "is-success",
             dismissible: true,
             pauseOnHover: true,
             duration: 6000, // milliseconds
