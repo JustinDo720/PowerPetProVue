@@ -247,20 +247,26 @@ export default {
         { state: this.chosen_state },
       ];
 
+      // Need to make sure we remove stripe error before every run then apply it if there is another err
+      if(this.errors['stripe']){
+        delete this.errors['stripe']
+      }
+
       for (let field in fields) {
         let field_name = Object.keys(fields[field])[0];
         let field_value = fields[field][field_name];
-        if (field_value === "") {
+        if (field_value === "" || field_value === null) {
           this.errors[field_name] = `* The ${field_name} field is missing!`;
         } else if (
           field_name === "email" &&
           field_value !== "" &&
           !this.isAuth &&
           !this.continue_order
-        ) {
+        ){
           // this email field has been filled in and this user is anonymous so let's check if the email has been used
-          await axios.post("check_email/", { email: this.email }).then((r) => {
-            if (r.data.exists) {
+          console.log('checking email')
+          await axios.post("check_email/", { email: this.email}).then((r)=>{
+            if(r.data.exists){
               toast({
                 message: r.data.msg,
                 type: "is-info",
@@ -268,10 +274,10 @@ export default {
                 pauseOnHover: true,
                 position: "bottom-right",
                 duration: 15000, // 15 seconds
-              });
+              })
               this.active_email = true;
             }
-          });
+          })
         } else {
           delete this.errors[field_name];
         }
@@ -308,27 +314,42 @@ export default {
         last_name: this.last_name,
         email: this.email,
         address: this.address,
-        zipcode: this.zip_code,
-        phone: this.phone_number,
+        zipcode: this.zip_code, // for order api
+        zip_code: this.zip_code, // for profile api
+        phone: this.phone_number, // for order api
+        phone_number: this.phone_number,  // for profile api
         city: this.city,
         country: this.chosen_country,
         state: this.chosen_state,
         items: items,
         stripe_token: token.id,
       };
+
       // We are using this to make our backend know that the requested user is actually authenticated and not anonymous
       if (Cookies("user_id") && this.accessToken) {
+        console.log('we are saving the user data')
         data["user"] = Cookies("user_id");
         Cookies.set("order_email", this.email);
         let config = {
           headers: { Authorization: `Bearer ${this.accessToken}` },
         };
         // let's make sure we wait for this post request but we could only post if there's a user_id
+        /*
+        OKAY, We CANNOT use the same data variable for both the checkout and update profile api because of different
+        key names like phone for order but phone_number for profile. So to solve this we could just simply add:
+
+        phone_number: this.phone_number
+        zip_code: this.zip_code
+
+        In addition to the zipcode and phone keys in our data var
+         */
         await axios.put(
           `profile_list/user_profile/${Cookies("user_id")}/`,
           data,
           config
-        );
+        ).then(r=>{
+          console.log(r.data)
+        });
       } else {
         // our user is anonymous so let's set our their email in our cookies for us to email them their order
         Cookies.set("anonymous_user_email", this.email);

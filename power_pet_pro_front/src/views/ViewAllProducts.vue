@@ -329,7 +329,9 @@ export default {
       fd.append("name", this.chosen_product_name);
       fd.append("price", parseInt(this.chosen_product_price));
       fd.append("description", this.chosen_product_description);
-      fd.append("image", this.chosen_product_picture);
+      if(this.chosen_product_picture){
+        fd.append("image", this.chosen_product_picture);
+      }
       axios({
         url: `admin_panel/product_list/update/${this.chosen_product_id}/`,
         method: "PUT",
