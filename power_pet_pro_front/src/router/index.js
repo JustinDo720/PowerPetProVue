@@ -28,6 +28,7 @@ import SubmitFeedback from "../views/SubmitFeedback";
 import QuestionControl from "../views/QuestionControl";
 import AllFeedbacks from "../views/AllFeedbacks";
 import CheckOrder from "../views/CheckOrder";
+import Tutorial from "../views/Tutorial"
 import store from "../store";
 
 const routes = [
@@ -186,6 +187,11 @@ const routes = [
     name: "CheckOrder",
     component: CheckOrder,
   },
+  {
+    path: "/tutorial/",
+    name: "Tutorial",
+    component: Tutorial
+  }
 ];
 
 const router = createRouter({

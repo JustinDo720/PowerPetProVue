@@ -214,8 +214,14 @@
             :key="index"
           >
             <div class="card-content">
-              <div class="content is-large" v-if="index !== 'feedback'">
+              <div class="content is-large" v-if="index !== 'feedback' && index !== 'card'">
                 {{ cleanIndex(index) }}: {{ user_info }}
+              </div>
+              <div class="content is-large" v-if="index === 'card'">
+                {{ cleanIndex(index)}}:
+                <button class="button is-outlined is-info" @click="showCardInfo()">
+                  {{ user_info }}
+                </button>
               </div>
             </div>
           </div>
@@ -237,6 +243,7 @@
       </div>
     </div>
   </section>
+
   <!-- Edit Information section -->
   <section class="section is-small" v-if="edit_mode && !admin_mode">
     <div class="container">
@@ -316,8 +323,34 @@
                     </p>
                   </div>
                 </div>
-
-                <div v-if="index !== 'country' && index !== 'state'">
+                <div
+                    class="control has-icons-left"
+                    v-if="index === 'card'"
+                >
+                  <div class="select is-large">
+                    <select
+                        v-model="user_profile['card']"
+                        v-if="index === 'card'"
+                    >
+                      <option
+                          v-for="(card, index) in available_card_names"
+                          :key="index"
+                      >
+                        {{ card }}
+                      </option>
+                    </select>
+                  </div>
+                  <span class="icon is-medium is-left">
+                      <i class="fas fa-credit-card"></i>
+                  </span>
+                  <div>
+                    <p class="is-info help">
+                      * Choose any card to reveal its' information at checkout. *
+                    </p>
+                  </div>
+                </div>
+                <!-- normal inputs no drop downs -->
+                <div v-if="index !== 'country' && index !== 'state' && index !== 'card'">
                   <input
                     class="input is-medium"
                     type="text"
@@ -356,10 +389,12 @@
         <div class="message-body">
           <div class="columns">
             <div class="column">
-              <p v-for="(user_info, index) in user_profile" :key="index">
-                <strong>{{ cleanIndex(index) }}</strong
-                >: {{ user_info }}
-              </p>
+              <div v-for="(user_info, index) in user_profile" :key="index">
+                <p v-if="index !== 'feedback'">
+                  <strong>{{ cleanIndex(index) }}</strong
+                  >: {{ user_info }}
+                </p>
+              </div>
             </div>
             <div class="is-divider-vertical" data-content="CHANGED"></div>
             <div class="column">
@@ -443,13 +478,58 @@
       @click="showFeedback = !showFeedback"
     ></button>
   </div>
+
+  <!-- Card Modal -->
+  <div class="modal" :class="{'is-active': show_card_info}">
+    <div class="modal-background"></div>
+      <div class="modal-content">
+        <!-- Any other Bulma elements you want -->
+        <div class="card"
+             :class="{
+              'visa': user_card_info['card_id'] === 1,
+              'mastercard': user_card_info['card_id'] === 2,
+              'americanExpress': user_card_info['card_id'] === 3,
+              }"
+        >
+          <div class="card-content">
+            <div class="content">
+              <h1 class="title is-2">
+                {{ user_card_info.card_name }}
+              </h1>
+              <h2 class="subtitle is-4">
+                {{ user_card_info.show_card_number }}
+              </h2>
+              <div class="columns">
+                <div class="column">
+                  <h3 class="subtitle is-5">
+                    {{ user_profile['first_name'] }}  {{ user_profile['last_name'] }}
+                  </h3>
+                </div>
+                <div class="column">
+                  <h3 class="subtitle is-5">
+                    Expiration Date: {{ user_card_info.card_exp_date }}
+                  </h3>
+                </div>
+                <div class="column">
+                  <h3 class="subtitle is-5">
+                    CVV: {{ user_card_info.card_cvv }}
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" @click="show_card_info = !show_card_info"></button>
+  </div>
 </template>
+
 <script>
 import axios from "axios";
 import Cookies from "cookies-js";
 import { toast } from "bulma-toast";
-import countries from "../assets/Profile/countries";
 import countries_and_states from "../assets/Profile/countries_and_states";
+import cards from "../assets/Profile/cards"
 import OrderBox from "../components/OrderBox";
 // import { mapGetters } from "vuex"
 
@@ -462,9 +542,13 @@ export default {
       user_profile: "", // This is where we are going to store all of our user Profile details
       original_profile: "", // We are going to use this to check if they user changed anything
       countries: [],
+      available_cards: [],  // hold the card obj
+      available_card_names: [], // hold the names of all the cards for our select field
+      user_card_info: {},
       states: "",
       edit_mode: false,
       admin_mode: true,
+      show_card_info: false,
       showConfirm: false,
       showFeedback: false,
       isAdmin: false,
@@ -498,7 +582,6 @@ export default {
             old_value: old_value,
             new_value: new_value,
           };
-          console.log(changed_user_info)
         }
 
       }
@@ -520,8 +603,14 @@ export default {
         headers: { Authorization: `Bearer ${this.accessToken}` },
       };
       for (let key in this.changed_info) {
-        // We need to allow users to leave desired fields blank so
         changed_data[key] = this.changed_info[key].new_value;
+        // we need to convert the card name back into its id form before submitting it
+        if(key === 'card'){
+            let card_object = this.available_cards.filter(card => card.card_name === changed_data[key])
+            changed_data[key] = card_object[0].card_id // remember once we filter it's an array
+        }
+
+        // We need to allow users to leave desired fields blank so
         if(!changed_data[key]){
           // let's set this to null instead of a string because some fields might be int and won't accept empty strings
           changed_data[key] = null
@@ -531,7 +620,6 @@ export default {
       if(!changed_data['email']){
         changed_data['email'] = this.user_profile.email // if they didnt change their emails we could use their original
       }
-      console.log(changed_data)
       axios
         .put(`profile_list/user_profile/${this.user_id}/`, changed_data, config)
         .then(() => {
@@ -547,6 +635,11 @@ export default {
           });
         });
     },
+    showCardInfo(){
+      // we need to get the user card object based on the name of the card
+      this.user_card_info = this.available_cards.filter(card => card.card_name === this.user_profile['card'])[0]
+      this.show_card_info = !this.show_card_info
+    }
   },
   computed: {
     user_id() {
@@ -569,11 +662,16 @@ export default {
     },
   },
   created() {
-    // We are going to set our model countries to the our country objects
+    // We are going to set our model countries to the our country objects and our model available_cards to our card obj
     this.states = countries_and_states.countries;
     this.states.forEach((country) => {
       this.countries.push(country.country);
     });
+    this.available_cards = cards.cards
+    this.available_cards.forEach((card)=>{
+      this.available_card_names.push(card.card_name) // so we could match our model to the select field
+    })
+
     // we are going to use our cookies because mounted() runs up before our store
     axios
       .get(`profile_list/user_profile/${this.user_id}/`, {
@@ -581,6 +679,9 @@ export default {
       })
       .then((response) => {
         this.user_profile = response.data;
+        let user_card_name = this.available_cards.filter((card) => card.card_id === this.user_profile['card'])
+        this.user_profile['card'] = user_card_name[0].card_name
+
         this.isAdmin = response.data.is_staff;
         if (!this.isAdmin) {
           this.admin_mode = false;
@@ -603,3 +704,18 @@ export default {
   },
 };
 </script>
+
+<style>
+
+.visa{
+  background-color: #1372ec !important;
+}
+
+.mastercard{
+  background-color: #c9ccd5 !important;
+}
+
+.americanExpress{
+  background-color: #d6bf13 !important;
+}
+</style>
