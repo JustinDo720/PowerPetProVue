@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import axios from "axios";
 import Cookies from "cookies-js";
+import cards from '../assets/Profile/cards.js'
 
 // We will use this function to save our tokens
 function saveTokens(username, user_id, accessToken, refreshToken, is_staff) {
@@ -29,6 +30,7 @@ export default createStore({
     next_url: "", // We are going to store the next and previous url here in the state so we could just use mapState
     previous_url: "",
     store_categories: [],
+    available_cards: [],  // Store all the available card info from cards.js
   },
   mutations: {
     // mutations have state as their parameters as they're the only ones that could actually change state
@@ -202,6 +204,10 @@ export default createStore({
       state.cart = { items: [] };
       localStorage.setItem("cart", JSON.stringify(state.cart));
     },
+    update_available_cards(state){
+      // commit this mutation in app.vue to make sure the cards are here
+      state.available_cards = cards.cards
+    }
   },
   actions: {
     initializeStore(context) {
