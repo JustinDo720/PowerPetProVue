@@ -64,6 +64,9 @@
                     placeholder="Email"
                     v-model="email"
                   />
+                  <p class="help has-background-warning has-text-dark">
+                    * <b><u>PLEASE</u></b> be sure to use an <b>ACTIVE EMAIL. We will be sending your order confirmation. </b>*
+                  </p>
                 </div>
                 <div class="column control">
                   <label> Phone Number* </label>
@@ -117,6 +120,9 @@
                       </option>
                     </select>
                   </div>
+                  <p class="help is-info column">
+                    * Be sure to select a <u>country</u> <b>FIRST</b> then select a <u>state</u>  *
+                  </p>
                 </div>
                 <div class="column is-5 control">
                   State*
@@ -130,20 +136,30 @@
                       </option>
                     </select>
                   </div>
+                  <p class="help is-info column">
+                    * You may <b>click</b> on the <u>Country or State</u> box and <b>start typing</b> for faster selection *
+                  </p>
                 </div>
+
               </div>
               <div class="columns">
                 <div class="column control">
                   <div ref="card" class="mb-5 form-control"></div>
+                  <p class="help is-info ">
+                    * You may copy and paste (with hyphens) the information on your card (located on to top right above your items  :) *
+                  </p>
                 </div>
               </div>
-              <p
-                class="help is-danger"
-                v-for="(error, index) in errors"
-                :key="index"
-              >
-                {{ error }}
-              </p>
+              <div class="column" v-if="errors">
+                <p
+                    class="help is-danger"
+                    v-for="(error, index) in errors"
+                    :key="index"
+                >
+                  {{ error }}
+                </p>
+              </div>
+
               <button class="button is-dark" @click="submit_shipping_details">
                 Pay With Stripe
               </button>
@@ -151,33 +167,81 @@
           </div>
         </div>
         <div class="is-divider-vertical"></div>
-        <!-- Item Column -->
-        <div class="column container is-3">
-          <div class="box">
-            <div class="title is-2 has-text-black">Your Items</div>
-            <article
-              class="media"
-              v-for="(cart_item, index) in cart.items"
-              :key="index"
+        <!-- User Card and Item Information -->
+        <div class="columns is-multiline">
+          <!-- Card Info -->
+          <div class="column container is-full">
+            <div class="card mt-3"
+                 :class="{
+                    'visa': user_card_info['card_id'] === 1,
+                    'mastercard': user_card_info['card_id'] === 2,
+                    'americanExpress': user_card_info['card_id'] === 3,
+                    'discover': user_card_info['card_id'] === 4,
+                    'dinersClub': user_card_info['card_id'] === 5,
+                    'jcb': user_card_info['card_id'] === 6,
+                    'unionPay': user_card_info['card_id'] === 7,
+                  }"
             >
-              <figure class="media-left">
-                <p class="image is-64x64">
-                  <img :src="cart_item.photo" alt="Product-Image" />
-                </p>
-              </figure>
-              <div class="media-content">
-                <p class="title is-4 has-text-black">
-                  {{ cart_item.name }}
-                </p>
-                <p class="subtitle is-6 has-text-black">
-                  <strong class="has-text-black">Quantity: </strong
-                  >{{ cart_item.quantity }}
-                  <br />
-                  <strong class="has-text-black">Total Price: $</strong
-                  >{{ cart_item.price * cart_item.quantity }}
-                </p>
+              <div class="card-content">
+                <div class="content">
+                  <h1 class="title is-2">
+                    {{ user_card_info.card_name }}
+                  </h1>
+                  <h2 class="subtitle is-4 has-text-black">
+                    {{ user_card_info.show_card_number }}
+                  </h2>
+                  <div class="columns">
+                    <div class="column">
+                      <h3 class="subtitle is-5 has-text-black" v-if="first_name && last_name">
+                        {{ first_name }}  {{ last_name }}
+                      </h3>
+                      <h3 class="subtitle is-5 has-text-black" v-else>
+                        Guest User
+                      </h3>
+                    </div>
+                    <div class="column">
+                      <h3 class="subtitle is-5 has-text-black">
+                        Expiration Date: {{ user_card_info.card_exp_date }}
+                      </h3>
+                    </div>
+                    <div class="column">
+                      <h3 class="subtitle is-5 is-black has-text-black">
+                        CVV: {{ user_card_info.card_cvv }}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </article>
+            </div>
+          </div>
+          <!-- item Info -->
+          <div class="column container is-full">
+            <div class="box">
+              <div class="title is-2 has-text-black">Your Items</div>
+              <article
+                  class="media"
+                  v-for="(cart_item, index) in cart.items"
+                  :key="index"
+              >
+                <figure class="media-left">
+                  <p class="image is-64x64">
+                    <img :src="cart_item.photo" alt="Product-Image" />
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <p class="title is-4 has-text-black">
+                    {{ cart_item.name }}
+                  </p>
+                  <p class="subtitle is-6 has-text-black">
+                    <strong class="has-text-black">Quantity: </strong
+                    >{{ cart_item.quantity }}
+                    <br />
+                    <strong class="has-text-black">Total Price: $</strong
+                    >{{ cart_item.price * cart_item.quantity }}
+                  </p>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
       </div>
@@ -210,12 +274,13 @@ export default {
       address: "",
       city: "",
       zip_code: "",
+      user_card_info: {},
       errors: {},
       continue_order: false,
     };
   },
   computed: {
-    ...mapState(["cart", "accessToken"]),
+    ...mapState(["cart", "accessToken", "available_cards"]),
     ...mapGetters(["isAuth"]),
     country_states() {
       let country_selected = {};
@@ -264,17 +329,8 @@ export default {
           !this.continue_order
         ){
           // this email field has been filled in and this user is anonymous so let's check if the email has been used
-          console.log('checking email')
           await axios.post("check_email/", { email: this.email}).then((r)=>{
             if(r.data.exists){
-              toast({
-                message: r.data.msg,
-                type: "is-info",
-                dismissible: true,
-                pauseOnHover: true,
-                position: "bottom-right",
-                duration: 15000, // 15 seconds
-              })
               this.active_email = true;
             }
           })
@@ -399,7 +455,12 @@ export default {
           this.chosen_state = response.data.state;
           this.email = response.data.email;
           this.phone_number = response.data.phone_number;
+          // lets filter the exact card
+          this.user_card_info = this.available_cards.filter(card=>card.card_id === response.data.card)[0] // filter list
         });
+    } else {
+      // if the user is a guest then we could put the default visa card for this.user_card_info
+      this.user_card_info = this.available_cards[0]
     }
   },
   mounted() {
@@ -455,5 +516,33 @@ export default {
 
 .StripeElement--webkit-autofill {
   background-color: #fefde5 !important;
+}
+
+.visa{
+  background-color: #1372ec !important;
+}
+
+.mastercard{
+  background-color: #c9ccd5 !important;
+}
+
+.americanExpress{
+  background-color: #03a786 !important;
+}
+
+.discover{
+  background-color: #c73202 !important;
+}
+
+.dinersClub{
+  background-color: #af00ac !important;
+}
+
+.jcb{
+  background-color: #5f82da !important;
+}
+
+.unionPay{
+  background-color: #bcbdbc !important;
 }
 </style>

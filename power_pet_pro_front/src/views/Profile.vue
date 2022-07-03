@@ -219,7 +219,17 @@
               </div>
               <div class="content is-large" v-if="index === 'card'">
                 {{ cleanIndex(index)}}:
-                <button class="button is-outlined is-info" @click="showCardInfo()">
+                <button class="button is-light"
+                        :class="{
+                          'visa': user_card_info['card_id'] === 1 ,
+                          'mastercard': user_card_info['card_id'] === 2,
+                          'americanExpress': user_card_info['card_id'] === 3,
+                          'discover': user_card_info['card_id'] === 4,
+                          'dinersClub': user_card_info['card_id'] === 5,
+                          'jcb': user_card_info['card_id'] === 6,
+                          'unionPay': user_card_info['card_id'] === 7,
+                        }"
+                        @click="showCardInfo()">
                   {{ user_info }}
                 </button>
               </div>
@@ -489,11 +499,15 @@
               'visa': user_card_info['card_id'] === 1,
               'mastercard': user_card_info['card_id'] === 2,
               'americanExpress': user_card_info['card_id'] === 3,
+              'discover': user_card_info['card_id'] === 4,
+              'dinersClub': user_card_info['card_id'] === 5,
+              'jcb': user_card_info['card_id'] === 6,
+              'unionPay': user_card_info['card_id'] === 7,
               }"
         >
           <div class="card-content">
-            <div class="content">
-              <h1 class="title is-2">
+            <div class="content has-text-white">
+              <h1 class="title is-2 is-white">
                 {{ user_card_info.card_name }}
               </h1>
               <h2 class="subtitle is-4">
@@ -529,9 +543,8 @@ import axios from "axios";
 import Cookies from "cookies-js";
 import { toast } from "bulma-toast";
 import countries_and_states from "../assets/Profile/countries_and_states";
-import cards from "../assets/Profile/cards"
 import OrderBox from "../components/OrderBox";
-// import { mapGetters } from "vuex"
+import { mapState, } from "vuex"
 
 export default {
   name: "Profile",
@@ -542,7 +555,6 @@ export default {
       user_profile: "", // This is where we are going to store all of our user Profile details
       original_profile: "", // We are going to use this to check if they user changed anything
       countries: [],
-      available_cards: [],  // hold the card obj
       available_card_names: [], // hold the names of all the cards for our select field
       user_card_info: {},
       states: "",
@@ -642,6 +654,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['available_cards']),
     user_id() {
       return Cookies("user_id");
     },
@@ -667,7 +680,7 @@ export default {
     this.states.forEach((country) => {
       this.countries.push(country.country);
     });
-    this.available_cards = cards.cards
+    console.log(this.available_cards)
     this.available_cards.forEach((card)=>{
       this.available_card_names.push(card.card_name) // so we could match our model to the select field
     })
@@ -716,6 +729,22 @@ export default {
 }
 
 .americanExpress{
-  background-color: #d6bf13 !important;
+  background-color: #03a786 !important;
+}
+
+.discover{
+  background-color: #c73202 !important;
+}
+
+.dinersClub{
+  background-color: #af00ac !important;
+}
+
+.jcb{
+  background-color: #5f82da !important;
+}
+
+.unionPay{
+  background-color: #bcbdbc !important;
 }
 </style>

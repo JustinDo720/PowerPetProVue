@@ -233,6 +233,19 @@
 
       <!-- End Navbar aka right side -->
       <div class="navbar-end">
+        <div class="navbar-item">
+          <router-link :to="{name:'Tutorial'}"
+                       class="button is-info"
+                       :class="{'is-small': isAuth, 'is-medium': !isAuth}"
+          >
+            <span class="icon is-small">
+              <i class="fas fa-exclamation"></i>
+            </span>
+            <span>
+                Tutorial
+            </span>
+          </router-link>
+        </div>
         <div class="navbar-item" v-if="!isAuth">
           <div class="dropdown" :class="{ 'is-active': showAccount }">
             <div class="dropdown-trigger">
