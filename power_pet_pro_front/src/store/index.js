@@ -224,8 +224,8 @@ export default createStore({
         const refreshToken = Cookies("refreshToken");
         const is_staff = Cookies("is_staff");
 
-        // let url = process.env.VUE_APP_ROOT_API + "auth/jwt/verify/"; /// Production/live
-        let url = 'http://localhost:8000/auth/jwt/verify/' /// Testing/local (it has to be the full http://)
+        let url = process.env.VUE_APP_ROOT_API + "auth/jwt/verify/"; /// Production/live
+        // let url = 'http://localhost:8000/auth/jwt/verify/' /// Testing/local (it has to be the full http://)
         axios
           .post(url, {
             token: accessToken,
