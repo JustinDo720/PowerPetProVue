@@ -100,12 +100,12 @@ export default {
     },
     removeItem(cart_item) {
       // we need to find the item's index, use splice to get rid of the item from cart and then update our cart
-      let cart_item_index = this.cart.items.findIndex(
-        (element) => element.product.id === cart_item.product.id
-      );
-      // splice(index_to_remove, delete_count)
-      this.cart.items.splice(cart_item_index, 1);
+      // let cart_item_index = this.cart.items.findIndex(
+      //   (element) => element.product.id === cart_item.product.id /// we cannot use product.id we only have product
+      // ); /// returns 0
+      let cart_item_index = this.cart.items.findIndex((item) => item.product === cart_item.product)
       // To remove items from the user we need to make sure we delete them so
+      this.cart.items.splice(cart_item_index, 1)
       if (this.user_id && this.accessToken) {
         axios
           .delete(

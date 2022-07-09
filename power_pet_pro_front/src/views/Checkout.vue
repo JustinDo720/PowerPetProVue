@@ -216,10 +216,17 @@
           </div>
           <!-- item Info -->
           <div class="column container is-full">
-            <div class="box">
+            <div class="box scrollable">
               <div class="title is-2 has-text-black">Your Items</div>
+              <div class="box has-background-primary">
+                <p class="title is-4 has-text-black">
+                  <strong>
+                    Total: ${{ cartTotalPrice.toFixed(2) }}
+                  </strong>
+                </p>
+              </div>
               <article
-                  class="media"
+                  class="media has-background-light"
                   v-for="(cart_item, index) in cart.items"
                   :key="index"
               >
@@ -296,6 +303,27 @@ export default {
       }
       return country_selected;
     },
+    cartTotalPrice() {
+      let totalPrice = 0;
+      for (
+          let item_index = 0;
+          item_index < this.cart.items.length;
+          item_index++
+      ) {
+        // We need to make sure we take quantity into account
+        if (this.cart.items[item_index].quantity >= 2) {
+          totalPrice +=
+              this.cart.items[item_index].quantity *
+              this.cart.items[item_index].price;
+        } else {
+          // Since we are doing calculations we need the number form. Price is in string format
+          totalPrice += Number(this.cart.items[item_index].price);
+        }
+      }
+      // Once we finish to need to make sure we update our localstorage
+      localStorage.setItem("cart", JSON.stringify(this.$store.state.cart));
+      return totalPrice;
+    }
   },
   methods: {
     async submit_shipping_details() {
@@ -361,7 +389,7 @@ export default {
         const obj = {
           product: curr_item.product, // we are getting the id of the product for our db to read it
           quantity: curr_item.quantity,
-          price: curr_item.price * curr_item.quantity, // total price
+          price: curr_item.price, // we should not be posting the price as the total price just do the math frontend
         };
         items.push(obj);
       }
@@ -544,5 +572,11 @@ export default {
 
 .unionPay{
   background-color: #bcbdbc !important;
+}
+
+.scrollable{
+  /* Apply max-height to use overflow-y for scroll bar*/
+  max-height: 540px;
+  overflow-y: scroll;
 }
 </style>
