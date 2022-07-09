@@ -133,8 +133,8 @@
                             >{{ item.quantity }}</span
                           >
                         </td>
-                        <td>{{ item.price }}</td>
-                        <td>{{ item.price * item.quantity }}</td>
+                        <td>${{ item.price }}</td>
+                        <td>${{ (item.price * item.quantity).toFixed(2) }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -201,7 +201,7 @@ export default {
         let new_date = new Date(
           date.slice(0, 4),
           date.slice(5, 7) - 1,
-          date.slice(8, 10) - 1
+          date.slice(8, 10)
         );
         var options = { month: "long" };
         let month = new Intl.DateTimeFormat("en-US", options).format(new_date);
@@ -233,6 +233,7 @@ export default {
       config["headers"] = { Authorization: `Bearer ${this.accessToken}` };
     }
     axios.get(`profile/order/${order_id}/`, config).then((response) => {
+      console.log(response.data.items)
       let order_details = response.data;
       this.order_number = order_details.id;
       this.paid_amount = order_details.paid_amount;
@@ -240,8 +241,8 @@ export default {
       this.date_created = order_details.created_at;
       this.shipping_address = {
         Address: order_details.address,
-        City: order_details.address,
-        State: order_details.address,
+        City: order_details.city,
+        State: order_details.state,
         "Zip Code": order_details.zipcode,
         Country: order_details.country,
       };

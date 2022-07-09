@@ -219,7 +219,7 @@
               </div>
               <div class="content is-large" v-if="index === 'card'">
                 {{ cleanIndex(index)}}:
-                <button class="button is-light"
+                <button class="button"
                         :class="{
                           'visa': user_card_info['card_id'] === 1 ,
                           'mastercard': user_card_info['card_id'] === 2,
@@ -232,6 +232,9 @@
                         @click="showCardInfo()">
                   {{ user_info }}
                 </button>
+                <p class="help is-info">
+                  * Click on the card name to check the card information that you'll be using in checkout *
+                </p>
               </div>
             </div>
           </div>
@@ -692,8 +695,8 @@ export default {
       })
       .then((response) => {
         this.user_profile = response.data;
-        let user_card_name = this.available_cards.filter((card) => card.card_id === this.user_profile['card'])
-        this.user_profile['card'] = user_card_name[0].card_name
+        this.user_card_info = this.available_cards.filter((card) => card.card_id === this.user_profile['card'])[0]
+        this.user_profile['card'] = this.user_card_info.card_name
 
         this.isAdmin = response.data.is_staff;
         if (!this.isAdmin) {

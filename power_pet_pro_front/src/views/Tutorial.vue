@@ -46,6 +46,10 @@
                       <li class="has-text-info">
                         NOTE: The <b>DEFAULT</b> Visa card is provided for guest users to try.
                       </li>
+                      <li class="has-text-danger">
+                        <b>PLEASE DO NOT ENTER YOUR ACTUAL CARD INFORMATION!!</b>
+                        A mock card will be provided to you at checkout :)
+                      </li>
                     </ul>
                   </li>
                 </ol>
