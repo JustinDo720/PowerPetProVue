@@ -105,6 +105,7 @@
                     class="input is-medium"
                     type="number"
                     min="1"
+                    step=".01"
                     placeholder="Product Price"
                     v-model="product_price"
                   />
@@ -205,7 +206,7 @@ export default {
         fd.append("category", category_object.id);
         fd.append("name", this.product_name);
         fd.append("actual_product", this.actual_product_link);
-        fd.append("price", parseInt(this.product_price));
+        fd.append("price", parseFloat(this.product_price));
         fd.append("description", this.product_description);
         if (this.product_image) {
           fd.append("image", this.product_image);

@@ -81,6 +81,14 @@
           />
         </div>
         <div class="field">
+          <strong>Product Actual Link: </strong>
+          <input
+              class="input is-warning"
+              type="text"
+              v-model="chosen_product_actual_product_link"
+          />
+        </div>
+        <div class="field">
           <strong>Product Category: </strong><br />
           <div class="select is-warning">
             <select v-model="chosen_product_category">
@@ -102,6 +110,7 @@
           <input
             class="input is-warning"
             type="number"
+            step=".01"
             v-model="chosen_product_price"
           />
         </div>
@@ -214,6 +223,7 @@ export default {
       chosen_product_price: "",
       chosen_product_productUrl: "",
       chosen_product_category: "",
+      chosen_product_actual_product_link: "",
       // this could be an easy fix to all your problems if you just set the product to chosen_product
       chosen_product: "", // access the price and stuff just from chosen_product.........................
     };
@@ -279,6 +289,7 @@ export default {
         this.default_image_name = product.get_image_name;
       }
       this.chosen_product_name = product.name;
+      this.chosen_product_actual_product_link = product.actual_product
       this.chosen_product_description = product.description;
       this.chosen_product_price = product.price;
       this.chosen_product_productUrl = product.get_absolute_url;
@@ -295,6 +306,7 @@ export default {
         this.default_image_name = product.get_image_name;
         this.chosen_product = product;
       }
+      this.chosen_product_actual_product_link = product.actual_product
       this.chosen_product_name = product.name;
       this.chosen_product_description = product.description;
       this.chosen_product_price = product.price;
@@ -327,7 +339,8 @@ export default {
       ).id;
       fd.append("category", category_id);
       fd.append("name", this.chosen_product_name);
-      fd.append("price", parseInt(this.chosen_product_price));
+      fd.append("actual_product", this.chosen_product_actual_product_link);
+      fd.append("price", parseFloat(this.chosen_product_price));
       fd.append("description", this.chosen_product_description);
       if(this.chosen_product_picture){
         fd.append("image", this.chosen_product_picture);

@@ -7,7 +7,7 @@
             <h2 class="title is-2 has-text-centered">Our Mission</h2>
             <hr />
             <div class="content" v-if="!blank_statement">
-              {{ mission_statement }}
+              <strong>"{{ mission_statement }}"</strong>
             </div>
             <div class="content" v-else>
               {{ blank_statement }}
