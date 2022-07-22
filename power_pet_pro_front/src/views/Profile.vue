@@ -200,6 +200,22 @@
                   </li>
                 </ul>
               </div>
+              <div class="column is-4" id="bug-control">
+                <h4 class="title is-4">Bug Control</h4>
+                <ul>
+                  <li>
+                    <router-link
+                        :to="{
+                        name: 'ViewAllBugs',
+                      }"
+                    >
+                      <button class="button is-primary is-outlined">
+                        View All User Submitted Bug Reports
+                      </button>
+                    </router-link>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

@@ -85,6 +85,36 @@
         </div>
       </div>
     </div>
+
+    <!-- Bug Modal -->
+    <div class="modal" :class="{'is-active': showBug}">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <!-- Any other Bulma elements you want -->
+        <div class="box has-background-success">
+          <div class="content is-large">
+            <h1>
+              Thank you for submitting a bug report!
+            </h1>
+            <div class="box">
+              <h1 class="title is-4">
+                Bug Report #{{ showBugInfo.id }}
+              </h1>
+              <h2 class="subtitle is-5">
+                Submitted by: {{ showBugInfo.bug_owner_name }}
+              </h2>
+              <p>
+                <strong>
+                  "{{ showBugInfo.bug_message }}"
+                </strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" @click="closeBugInfo()"></button>
+    </div>
+
   </section>
 </template>
 <script>
@@ -101,7 +131,9 @@ export default{
       bug_details: "",
       file_name: "None Selected",
       bug_image: null,
-      err: false
+      err: false,
+      showBug: false,
+      showBugInfo: {},
     }
   },
   computed:{
@@ -136,7 +168,7 @@ export default{
           method: "POST",
           data: fd
         }
-        axios(axios_posting).then(()=>{
+        axios(axios_posting).then((response)=>{
           toast({
             message: "Thank you for the bug report. I will be checking it out soon :)",
             type: "is-success",
@@ -145,11 +177,22 @@ export default{
             duration: 6000, // milliseconds
             position: "bottom-right",
           })
-          this.$router.push({name:"Profile", params:{'showBug':"true"}})
+          if(this.accessToken){
+            // if the user is authenticated then we can push them to their profile showing the bug report
+            this.$router.push({name:"Profile", params:{'showBug':"true"}})
+          } else {
+            this.showBug = !this.showBug
+            this.showBugInfo = response.data
+          }
+
         })
       } else {
         this.err = true
       }
+    },
+    closeBugInfo(){
+      this.showBug = !this.showBug
+      this.$router.push({name:"Home"})
     }
   },
   created(){
