@@ -98,6 +98,10 @@
                     <b><u>OPTIONAL</u></b>: Submit a feedback using the link provided in the email.  I would really
                     appreciate it so I keep these things in mind for other projects.
                   </li>
+                  <li class="has-text-info">
+                    <b><u>NOTE</u></b>: Please check out the Messages from the Message Box above the search bar for
+                    Messages from the Developer
+                  </li>
                 </ol>
               </p>
             </div>
@@ -187,6 +191,10 @@
                     <b>Check your Order</b>
                   </li>
                 </ol>
+              </p>
+              <p class="has-text-info">
+                <b><u>NOTE</u></b>: Please check out the Messages from the Message Box above the search bar for
+                Messages from the Developer
               </p>
             </div>
           </div>

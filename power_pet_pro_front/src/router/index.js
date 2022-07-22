@@ -28,7 +28,9 @@ import SubmitFeedback from "../views/SubmitFeedback";
 import QuestionControl from "../views/QuestionControl";
 import AllFeedbacks from "../views/AllFeedbacks";
 import CheckOrder from "../views/CheckOrder";
-import Tutorial from "../views/Tutorial"
+import Tutorial from "../views/Tutorial";
+import SubmitBug from "../views/SubmitBug";
+import ViewAllBugs from "../views/ViewAllBugs"
 import store from "../store";
 
 const routes = [
@@ -191,6 +193,16 @@ const routes = [
     path: "/tutorial/",
     name: "Tutorial",
     component: Tutorial
+  },
+  {
+    path:'/submit_bug/',
+    name: "SubmitBug",
+    component: SubmitBug
+  },
+  {
+    path: '/admin/view_all_bugs/',
+    name: 'ViewAllBugs',
+    component: ViewAllBugs
   }
 ];
 

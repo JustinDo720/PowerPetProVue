@@ -79,6 +79,14 @@
                 />
               </div>
               <div class="field">
+                <input
+                    class="input is-medium"
+                    type="text"
+                    placeholder="Actual Product Link"
+                    v-model="actual_product_link"
+                />
+              </div>
+              <div class="field">
                 <div class="control">
                   <textarea
                     class="textarea"
@@ -156,6 +164,7 @@ export default {
     return {
       chosen_category: "",
       product_name: "",
+      actual_product_link: "",
       product_description: "",
       product_image: null,
       default_image_name: "No Files Selected",
@@ -195,6 +204,7 @@ export default {
         const fd = new FormData();
         fd.append("category", category_object.id);
         fd.append("name", this.product_name);
+        fd.append("actual_product", this.actual_product_link);
         fd.append("price", parseInt(this.product_price));
         fd.append("description", this.product_description);
         if (this.product_image) {

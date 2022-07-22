@@ -188,6 +188,18 @@
                     </button>
                   </router-link>
                 </li>
+                <hr>
+                <li>
+                  <router-link
+                      :to="{
+                      name: 'ViewAllBugs',
+                    }"
+                  >
+                    <button class="button is-light is-danger">
+                      View All Bugs
+                    </button>
+                  </router-link>
+                </li>
               </ul>
             </aside>
 
@@ -291,6 +303,11 @@
                     Check Order
                   </a>
                 </router-link>
+                <router-link :to="{ name: 'SubmitBug' }">
+                  <a class="dropdown-item" @click="showAccount = !showAccount">
+                    Submit Bug
+                  </a>
+                </router-link>
               </div>
             </div>
           </div>
@@ -348,6 +365,11 @@
                       @click="showFunction = !showFunction"
                     >
                       Check Your Order
+                    </a>
+                  </router-link>
+                  <router-link :to="{ name: 'SubmitBug' }">
+                    <a class="dropdown-item" @click="showAccount = !showAccount">
+                      Submit Bug
                     </a>
                   </router-link>
                 </div>

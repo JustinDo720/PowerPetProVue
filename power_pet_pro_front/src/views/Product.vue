@@ -26,6 +26,9 @@
           <h1 class="title has-text-white">
             {{ product.name }}
           </h1>
+          <a class="subtitle button is-rounded is-success is-small" :href="product.actual_product">
+            See the actual product
+          </a>
           <div class="box has-background-primary">
             <p>
               {{ product.description }}
@@ -94,6 +97,7 @@ export default {
         .get(`/product_list/product_detail/${category_slug}/${product_slug}/`)
         .then((response) => {
           this.product = response.data;
+          console.log(this.product)
         });
       this.$store.commit("setIsLoading", false);
     },
