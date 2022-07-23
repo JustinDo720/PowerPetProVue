@@ -8,15 +8,15 @@
         <hr />
 
         <div class="columns is-centered">
-          <div class="column is-5">
+          <div class="column is-8">
             <div v-if="all_topic_details">
               <div
                 class="box"
                 v-for="(topic_detail, index) in all_topic_details"
                 :key="index"
               >
-                <h1 class="subtitle is-3 has-text-black">
-                  {{ topic_detail.mission_topic_details }}
+                <h1 class="subtitle is-5 has-text-black">
+                  "{{ topic_detail.mission_topic_details }}"
                 </h1>
               </div>
             </div>

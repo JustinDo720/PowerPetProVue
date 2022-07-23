@@ -11,11 +11,18 @@
           up-to-date.
         </h2>
         <button
-          class="button is-outlined is-primary"
-          v-if="user_profile.feedback"
-          @click="showFeedback = !showFeedback"
+            class="button is-outlined is-primary"
+            v-if="user_profile.feedback"
+            @click="showFeedback = !showFeedback"
         >
           <span>View Your Feedback</span>
+        </button>
+        <button
+            class="button is-outlined is-info"
+            v-if="user_profile.bugs"
+            @click="showBugs = !showBugs"
+        >
+          <span>View your Bug Reports</span>
         </button>
       </div>
       <div class="box" v-else>
@@ -31,6 +38,13 @@
             @click="showFeedback = !showFeedback"
           >
             <span>View Your Feedback</span>
+          </button>&nbsp;
+          <button
+              class="button is-outlined is-info"
+              v-if="user_profile.bugs"
+              @click="showBugs = !showBugs"
+          >
+            <span>View your Bug Reports</span>
           </button>
         </div>
         <br />
@@ -186,6 +200,22 @@
                   </li>
                 </ul>
               </div>
+              <div class="column is-4" id="bug-control">
+                <h4 class="title is-4">Bug Control</h4>
+                <ul>
+                  <li>
+                    <router-link
+                        :to="{
+                        name: 'ViewAllBugs',
+                      }"
+                    >
+                      <button class="button is-primary is-outlined">
+                        View All User Submitted Bug Reports
+                      </button>
+                    </router-link>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -214,7 +244,7 @@
             :key="index"
           >
             <div class="card-content">
-              <div class="content is-large" v-if="index !== 'feedback' && index !== 'card'">
+              <div class="content is-large" v-if="index !== 'feedback' && index !== 'card' && index !== 'bugs' ">
                 {{ cleanIndex(index) }}: {{ user_info }}
               </div>
               <div class="content is-large" v-if="index === 'card'">
@@ -279,7 +309,7 @@
           >
             <div class="card-content control">
               <!-- We will stop the content if the index is dealing with feedback -->
-              <div class="content is-large" v-if="index !== 'feedback'">
+              <div class="content is-large" v-if="index !== 'feedback' && index !== 'bugs'">
                 <strong>{{ cleanIndex(index) }}</strong
                 >:
                 <div
@@ -492,6 +522,37 @@
     ></button>
   </div>
 
+  <!-- Bug Modal -->
+  <div class="modal" :class="{'is-active': showBugs}">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <!-- Any other Bulma elements you want -->
+      <div class="card has-background-info">
+        <div class="card-content scrollable">
+          <header class="card-header">
+            <p class="card-header-title has-text-white" v-if="user_profile.first_name">
+              Thank you for your bug report {{ user_profile.first_name }}! The bug reports below are unresolved reports.
+              As soon as I try to get to them, they will be removed from your profile. thanks :D
+            </p>
+            <p class="card-header-title has-text-white" v-else>
+              Thank you for your bug report {{ user_profile.username }}! The bug reports below are unresolved reports.
+              As soon as I try to get to them, they will be removed from your profile. thanks :D
+            </p>
+          </header>
+          <div class="content">
+            <div class="box" v-for="(bug,index) in user_profile.bugs" :key="index">
+              <h1>Bug Report ID: {{ bug.bug_id }}</h1>
+              <p>
+                "{{ bug.bug_message }}"
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" @click="showBugs = !showBugs"></button>
+  </div>
+
   <!-- Card Modal -->
   <div class="modal" :class="{'is-active': show_card_info}">
     <div class="modal-background"></div>
@@ -566,6 +627,7 @@ export default {
       show_card_info: false,
       showConfirm: false,
       showFeedback: false,
+      showBugs: false,
       isAdmin: false,
       error_message: "",
       changed_info: "",
@@ -695,6 +757,7 @@ export default {
       })
       .then((response) => {
         this.user_profile = response.data;
+        console.log(this.user_profile)
         this.user_card_info = this.available_cards.filter((card) => card.card_id === this.user_profile['card'])[0]
         this.user_profile['card'] = this.user_card_info.card_name
 
@@ -717,6 +780,9 @@ export default {
       .then((response) => {
         this.orders = response.data;
       });
+    if(this.$route.params.showBug){
+      this.showBugs = true
+    }
   },
 };
 </script>
@@ -749,5 +815,10 @@ export default {
 
 .unionPay{
   background-color: #bcbdbc !important;
+}
+
+.scrollable{
+  max-height: 540px;
+  overflow-y: scroll;
 }
 </style>

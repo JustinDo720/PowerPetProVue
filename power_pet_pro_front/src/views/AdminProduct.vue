@@ -79,6 +79,14 @@
                 />
               </div>
               <div class="field">
+                <input
+                    class="input is-medium"
+                    type="text"
+                    placeholder="Actual Product Link"
+                    v-model="actual_product_link"
+                />
+              </div>
+              <div class="field">
                 <div class="control">
                   <textarea
                     class="textarea"
@@ -97,6 +105,7 @@
                     class="input is-medium"
                     type="number"
                     min="1"
+                    step=".01"
                     placeholder="Product Price"
                     v-model="product_price"
                   />
@@ -156,6 +165,7 @@ export default {
     return {
       chosen_category: "",
       product_name: "",
+      actual_product_link: "",
       product_description: "",
       product_image: null,
       default_image_name: "No Files Selected",
@@ -195,7 +205,8 @@ export default {
         const fd = new FormData();
         fd.append("category", category_object.id);
         fd.append("name", this.product_name);
-        fd.append("price", parseInt(this.product_price));
+        fd.append("actual_product", this.actual_product_link);
+        fd.append("price", parseFloat(this.product_price));
         fd.append("description", this.product_description);
         if (this.product_image) {
           fd.append("image", this.product_image);
