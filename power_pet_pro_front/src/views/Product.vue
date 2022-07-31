@@ -1,10 +1,10 @@
 <template>
   <div>
     <div
-      class="columns is-multiline"
+      class="columns is-multiline is-centered"
       :class="{ 'is-centered': !product.get_image }"
     >
-      <div class="column is-9" v-if="product.get_image">
+      <div class="column is-6" v-if="product.get_image">
         <div class="container">
           <figure>
             <p class="image mb-6 image is-16by9">
