@@ -212,7 +212,8 @@
                     :to="{
                       name: 'Category',
                       params: {
-                        category_slug: category.get_absolute_url,
+                        category_slug: category.slug,
+                        category_name: category.name
                       },
                     }"
                   >
@@ -422,7 +423,19 @@ export default {
   },
   methods: {
     async addSearch() {
+      this.$store.commit("setIsLoading", true)
       await this.$store.commit("addSearch", { searchTerm: this.searchTerm });
+      await this.$store.commit("update_searched_products", { searchTerm: null });
+      let searched_products = []
+      axios
+          .post("/product_list/search/", { query: this.searchTerm }).then((response)=>{
+            let all_products = response.data
+            for(let product in all_products){
+              searched_products.push(all_products[product])
+            }
+            this.$store.commit("update_searched_products", {searched_products: searched_products})
+            this.$store.commit("setIsLoading", false)
+      })
       this.$router.push({ name: "Search" });
       this.searchTerm = "";
     },

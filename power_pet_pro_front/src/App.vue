@@ -31,6 +31,7 @@ export default {
     ...mapState(["isLoading"]),
   },
   mounted() {
+    document.title = "Power Pet Pro";
     var quickviews = bulmaQuickview.attach(); // quickviews now contains an array of all Quickview instances
     // upon the app rendering, you want to make sure the available cards are in our store
     this.$store.commit('update_available_cards')

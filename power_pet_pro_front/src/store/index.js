@@ -25,6 +25,7 @@ export default createStore({
     refreshToken: "",
     isLoading: false, // We are going to add a loading bar for things that are loading
     searchTerm: "",
+    searched_products: [],
     is_staff: false,
     messageboxes: [],
     next_url: "", // We are going to store the next and previous url here in the state so we could just use mapState
@@ -207,6 +208,10 @@ export default createStore({
     update_available_cards(state){
       // commit this mutation in app.vue to make sure the cards are here
       state.available_cards = cards.cards
+    },
+    update_searched_products(state, {searched_products}){
+      state.searched_products = searched_products
+      console.log(state.searched_products)
     }
   },
   actions: {

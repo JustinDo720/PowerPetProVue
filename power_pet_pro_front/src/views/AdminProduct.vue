@@ -211,6 +211,9 @@ export default {
         if (this.product_image) {
           fd.append("image", this.product_image);
         }
+
+        // before we submit we're going to cancel error message so if there was one it'll let them know we are retrying
+        this.error_message = null
         axios({
           url: "admin_panel/post_product/",
           method: "POST",
@@ -218,6 +221,7 @@ export default {
           headers: { Authorization: `Bearer ${this.accessToken}` },
         })
           .then((response) => {
+            console.log(response)
             this.saved_photo_url = response.data.get_image;
             this.$store.commit("setIsLoading", false);
             toast({
@@ -235,6 +239,7 @@ export default {
             this.chosen_category = null
             this.added_product_name = this.product_name
             this.product_name = null
+            this.actual_product_link = null
             this.added_product_price = this.product_price
             this.product_price = null
             this.added_product_description = this.product_description
@@ -242,9 +247,15 @@ export default {
             this.product_image = null
             this.default_image_name = 'No Files Selected'
             this.saved_photo_url = null
+            this.error_message = null
           })
           .catch((err) => {
-            this.error_message = err.response.data.name[0];
+            if(err.response.data.name){
+              this.error_message = err.response.data.name[0];
+            } else {
+              this.error_message = "Product name is too long"
+            }
+
           });
       } else {
         this.error_message = "Please fill out the form";

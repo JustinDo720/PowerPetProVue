@@ -6,7 +6,7 @@
         <h2 class="is-size-5 has-text-grey">Search term: "{{ searchTerm }}"</h2>
       </div>
       <ProductBox
-        v-for="(product, index) in products"
+        v-for="(product, index) in searched_products"
         :key="index"
         :product="product"
       >
@@ -26,23 +26,7 @@ export default {
     ProductBox,
   },
   computed: {
-    ...mapState(["searchTerm"]),
+    ...mapState(["searchTerm", "searched_products"]),
   },
-  data() {
-    return {
-      products: [],
-    };
-  },
-  mounted() {
-    axios
-      .post("/product_list/search/", { query: this.searchTerm })
-      .then((response) => {
-        let all_products = response.data;
-        for (let product_id in all_products) {
-          this.products.push(all_products[product_id]);
-        }
-      });
-  },
-  methods: {},
 };
 </script>
