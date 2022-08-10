@@ -327,6 +327,8 @@ export default {
   },
   methods: {
     async submit_shipping_details() {
+      // we need to reset all the errors that might have happened before
+      this.errors = {}
       // Handle individual missing fields
       let fields = [
         { "first name": this.first_name },
